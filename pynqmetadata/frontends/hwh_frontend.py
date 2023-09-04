@@ -64,7 +64,7 @@ def core_factory(module: ElementTree) -> Block:
     """
     name = module.get("INSTANCE")
 
-    if module.get("BDTYPE") == "BLOCK_CONTAINER":
+    if module.get("BDTYPE") in ["BLOCK_CONTAINER", "RBD"]:
         vlnv = Vlnv(vendor="xilinx", library="bdc", name="bdc", version=(1, 0))
     else:
         vlnv = vlnv_creator(module.get("VLNV"))
@@ -83,7 +83,7 @@ def core_factory(module: ElementTree) -> Block:
             core = ProcSysCore(name=name, vlnv=vlnv, hierarchy_name=fullname)
 
     # BDC
-    elif module.get("BDTYPE") == "BLOCK_CONTAINER":
+    elif module.get("BDTYPE") in ["BLOCK_CONTAINER", "RBD"]:
         bdc_name = BDNameExtension(bd_name=module.get("BD"))
         core = Module(name=name, hierarchy_name=fullname)
         core.ext["bdc"] = bdc_name
